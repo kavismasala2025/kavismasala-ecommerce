@@ -28,12 +28,12 @@ export default function ProductDetail({ slug }: { slug: string }) {
       setProduct(data);
       if (data) {
         const { data: rel } = await supabase
-          .from('products')
-          .select('*')
-          .eq('is_active', true)
-          .eq('category', data.category)
-          .neq('id', data.id)
-          .limit(4);
+  .from('products')
+  .select('*')
+  .eq('is_active', true)
+  .eq('category_id', data.category_id)
+  .neq('id', data.id)
+  .limit(4);
         setRelated(rel ?? []);
       }
       setLoading(false);
@@ -81,9 +81,9 @@ export default function ProductDetail({ slug }: { slug: string }) {
             <ChevronRight className="w-3.5 h-3.5" />
             <Link to="/shop" className="hover:text-cream-300">Shop</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link to={`/shop?category=${encodeURIComponent(product.category)}`} className="hover:text-cream-300">
-              {product.category}
-            </Link>
+            <Link to="/shop" className="hover:text-cream-300">
+  Shop
+</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-white truncate">{product.name}</span>
           </nav>
@@ -103,7 +103,9 @@ export default function ProductDetail({ slug }: { slug: string }) {
           </div>
 
           <div>
-            <div className="text-maroon-700 font-semibold text-sm uppercase tracking-wider">{product.category}</div>
+        <div className="text-maroon-700 font-semibold text-sm uppercase tracking-wider">
+  Product
+</div>
             <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mt-1">{product.name}</h1>
             {product.weight && <div className="text-stone-500 mt-2">Pack size: {product.weight}</div>}
 

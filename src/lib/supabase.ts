@@ -66,3 +66,5 @@ export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
 export const ADMIN_USERNAME = 'admin';
 export const ADMIN_PASSWORD = 'kavis2026';
+console.log("Supabase URL:", url);
+console.log("Key loaded:", anonKey ? "YES" : "NO");

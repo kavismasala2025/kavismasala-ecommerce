@@ -244,7 +244,12 @@ export default function Checkout() {
         .filter(Boolean)
         .join(', ');
 
-      const { count } = await supabase.from('orders').select('*', { count: 'exact', head: true });
+      const { count, error: countError } = await supabase
+  .from('orders')
+  .select('*', { count: 'exact', head: true });
+
+console.log("Count:", count);
+console.log("Count Error:", countError);
       const orderNumber = generateOrderNumber(count ?? 0);
 
       const { data: order, error } = await supabase
@@ -270,12 +275,18 @@ export default function Checkout() {
         })
         .select()
         .single();
+        console.log("Order:", order);
+console.log("Error:", error);
+if (error || !order) {
+  console.error("Supabase Insert Error:", error);
+  console.log("Order:", order);
 
-      if (error || !order) {
-        setStep('details');
-        alert('Could not place order. Please try again.');
-        return;
-      }
+  alert(error?.message || JSON.stringify(error, null, 2));
+
+  setStep("details");
+  return;
+}
+
 
       const orderItems: OrderItem[] = items.map((l) => ({
         order_id: order.id,
