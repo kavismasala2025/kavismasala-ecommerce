@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Minus, Plus, ShoppingCart, Check, ChevronRight, Leaf, ShieldCheck, Truck } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { subscribeToProducts, loadProductsCatalog } from '../lib/supabase';
 import type { Product } from '../lib/types';
 import { formatINR } from '../lib/format';
 import { useCart } from '../context/CartContext';
@@ -17,27 +17,40 @@ export default function ProductDetail({ slug }: { slug: string }) {
   const [added, setAdded] = useState(false);
 
   useEffect(() => {
-    (async () => {
+    let active = true;
+
+    const loadProduct = async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from('products')
-        .select('*')
-        .eq('slug', slug)
-        .eq('is_active', true)
-        .maybeSingle();
-      setProduct(data);
-      if (data) {
-        const { data: rel } = await supabase
-  .from('products')
-  .select('*')
-  .eq('is_active', true)
-  .eq('category_id', data.category_id)
-  .neq('id', data.id)
-  .limit(4);
-        setRelated(rel ?? []);
+      const mapped = await loadProductsCatalog();
+      const currentProduct = mapped.find((product) => product.slug === slug && product.is_active) ?? null;
+
+      if (!active) return;
+
+      setProduct(currentProduct);
+      if (currentProduct) {
+        const related = mapped.filter((product) => {
+          if (!product.is_active || product.id === currentProduct.id) return false;
+          if (product.category_id && currentProduct.category_id) {
+            return product.category_id === currentProduct.category_id;
+          }
+          return product.category === currentProduct.category;
+        }).slice(0, 4);
+        if (active) setRelated(related);
+      } else {
+        if (active) setRelated([]);
       }
-      setLoading(false);
-    })();
+      if (active) setLoading(false);
+    };
+
+    loadProduct();
+    const unsubscribe = subscribeToProducts(() => {
+      loadProduct();
+    });
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, [slug]);
 
   if (loading) {

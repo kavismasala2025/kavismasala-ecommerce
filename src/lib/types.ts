@@ -5,9 +5,16 @@ export interface Product {
   description: string | null;
   price: number;
   category: string;
+  category_id?: string | null;
   image_url: string | null;
+  images?: string[] | null;
   weight: string | null;
   stock: number;
+  mrp?: number | null;
+  tags?: string[] | null;
+  is_featured?: boolean;
+  rating?: number | null;
+  review_count?: number | null;
   is_trending: boolean;
   is_active: boolean;
   created_at: string;

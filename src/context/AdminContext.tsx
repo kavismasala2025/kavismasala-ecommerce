@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import { ADMIN_PASSWORD, ADMIN_USERNAME } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 interface AdminContextValue {
   isAuthed: boolean;
-  login: (username: string, password: string) => boolean;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -19,19 +19,21 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     }
   });
 
-  const login = (username: string, password: string) => {
-    if (username.trim() === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      setIsAuthed(true);
-      try {
-        sessionStorage.setItem(SESSION_KEY, '1');
-      } catch {
-        // ignore
-      }
-      return true;
-    }
-    return false;
-  };
+  const login = async (email: string, password: string) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
+  if (error || !data.session) {
+    return false;
+  }
+
+  setIsAuthed(true);
+  sessionStorage.setItem(SESSION_KEY, '1');
+
+  return true;
+};
   const logout = () => {
     setIsAuthed(false);
     try {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
-import { supabase, CATEGORIES, RICE_MIX_SLUGS } from '../lib/supabase';
+import { CATEGORIES, RICE_MIX_SLUGS, subscribeToProducts, loadProductsCatalog } from '../lib/supabase';
 import { useRouter } from '../lib/router';
 import type { Product } from '../lib/types';
 import ProductCard from '../components/ProductCard';
@@ -28,16 +28,27 @@ export default function Shop() {
   }, [queryString]);
 
   useEffect(() => {
-    (async () => {
+    let active = true;
+
+    const loadProducts = async () => {
       setLoading(true);
-      const { data } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
-      setProducts(data ?? []);
-      setLoading(false);
-    })();
+      const mapped = await loadProductsCatalog();
+
+      if (active) {
+        setProducts(mapped.filter((product) => product.is_active));
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+    const unsubscribe = subscribeToProducts(() => {
+      loadProducts();
+    });
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, []);
 
   const filtered = useMemo(() => {

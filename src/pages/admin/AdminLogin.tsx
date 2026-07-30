@@ -11,14 +11,17 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (login(username, password)) {
-      navigate('/admin/dashboard');
+
+    const ok = await login(username, password);
+
+    if (ok) {
+        navigate('/admin/dashboard');
     } else {
-      setError('Invalid username or password');
+        setError('Invalid email or password');
     }
-  };
+};
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-10 bg-cream-50">

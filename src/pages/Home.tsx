@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowRight, Leaf, Package, ShieldCheck, Truck, BadgeCheck } from 'lucide-react';
-import { supabase, BRAND, CATEGORIES } from '../lib/supabase';
+import { BRAND, CATEGORIES, subscribeToProducts, loadProductsCatalog } from '../lib/supabase';
 import type { Product } from '../lib/types';
 import ProductCard from '../components/ProductCard';
 import { Link, useRouter } from '../lib/router';
@@ -14,16 +14,26 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState('All Products');
 
   useEffect(() => {
-    (async () => {
-      const { data } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .eq('is_trending', true)
-        .order('created_at', { ascending: false });
-      setTrending(data ?? []);
-      setLoading(false);
-    })();
+    let active = true;
+
+    const loadTrending = async () => {
+      const mapped = await loadProductsCatalog();
+
+      if (active) {
+        setTrending(mapped.filter((product) => product.is_active && product.is_trending));
+        setLoading(false);
+      }
+    };
+
+    loadTrending();
+    const unsubscribe = subscribeToProducts(() => {
+      loadTrending();
+    });
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
   }, []);
 
   const handleFilter = (cat: string) => {

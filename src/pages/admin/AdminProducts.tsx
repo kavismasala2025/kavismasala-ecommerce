@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Plus, Search, X, Pencil, Trash2, AlertTriangle } from 'lucide-react';
-import { supabase, CATEGORIES } from '../../lib/supabase';
+import {
+  supabase,
+  CATEGORIES,
+  notifyProductsChanged,
+  loadProductsCatalog
+} from '../../lib/supabase';
 import { formatINR } from '../../lib/format';
 import AdminLayout from './AdminLayout';
 import type { Product } from '../../lib/types';
@@ -34,8 +39,8 @@ export default function AdminProducts() {
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase.from('products').select('*').order('created_at', { ascending: false });
-    setProducts(data ?? []);
+    const mapped = await loadProductsCatalog();
+    setProducts(mapped);
     setLoading(false);
   };
 
@@ -48,8 +53,9 @@ export default function AdminProducts() {
   };
 
   const openEdit = (p: Product) => {
+    console.log('[AdminProducts] Opening edit for product:', { id: p.id, name: p.name, category: p.category, price: p.price });
     setEditing(p);
-    setForm({
+    const newForm = {
       name: p.name,
       slug: p.slug,
       description: p.description ?? '',
@@ -60,39 +66,191 @@ export default function AdminProducts() {
       stock: String(p.stock),
       is_trending: p.is_trending,
       is_active: p.is_active,
-    });
+    };
+    console.log('[AdminProducts] Form set to:', { name: newForm.name, category: newForm.category, price: newForm.price });
+    setForm(newForm);
     setShowForm(true);
   };
 
   const save = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
+  e.preventDefault();
+  setSaving(true);
+
+  try {
+    console.log('[AdminProducts] FORM CURRENT STATE:', {
+      name: form.name,
+      category: form.category,
+      price: form.price,
+      slug: form.slug,
+    });
+
+    console.log('[AdminProducts] FORM DATA:', form);
+
+    // Find category ID
+    const { data: categoryRow, error: categoryError } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('name', form.category)
+      .maybeSingle();
+
+    if (categoryError) {
+      console.error('[AdminProducts] Category error:', categoryError);
+      alert('Category error: ' + categoryError.message);
+      return;
+    }
+
+    if (!categoryRow) {
+      alert('Category not found: ' + form.category);
+      return;
+    }
+
     const payload = {
       name: form.name.trim(),
       slug: form.slug.trim() || slugify(form.name),
       description: form.description.trim() || null,
       price: Number(form.price) || 0,
-      category: form.category,
+      category_id: categoryRow.id,
       image_url: form.image_url.trim() || null,
       weight: form.weight.trim() || null,
       stock: Number(form.stock) || 0,
       is_trending: form.is_trending,
       is_active: form.is_active,
+      is_featured: form.is_trending,
+      images: form.image_url.trim()
+        ? [form.image_url.trim()]
+        : [],
+      tags: [],
     };
 
+    console.log('[AdminProducts] PAYLOAD:', payload);
+
+    // =========================
+    // UPDATE EXISTING PRODUCT
+    // =========================
     if (editing) {
-      await supabase.from('products').update(payload).eq('id', editing.id);
-    } else {
-      await supabase.from('products').insert(payload);
+      console.log(
+        '[AdminProducts] Updating product:',
+        editing.id
+      );
+const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  console.log('[AdminProducts] CURRENT USER:', user);
+  console.log('[AdminProducts] USER ERROR:', userError);
+
+  if (!user) {
+    alert('You are NOT logged in to Supabase.');
+    return;
+  }
+
+      const { data, error } = await supabase
+        .from('products')
+        .update(payload)
+        .eq('id', editing.id)
+        .select('*');
+
+      console.log('[AdminProducts] UPDATE DATA:', data);
+      console.log('[AdminProducts] UPDATE ERROR:', error);
+
+      if (error) {
+        console.error(
+          '[AdminProducts] UPDATE FAILED:',
+          error
+        );
+
+        alert(
+          'UPDATE FAILED:\n\n' +
+          error.message
+        );
+
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        console.error(
+          '[AdminProducts] UPDATE DID NOT MODIFY ANY ROW'
+        );
+
+        alert(
+          'Supabase accepted the request, but NO product row was updated.\n\n' +
+          'Product ID:\n' +
+          editing.id
+        );
+
+        return;
+      }
+
+      console.log(
+        '[AdminProducts] UPDATED ROW:',
+        data[0]
+      );
+
+      alert('Product updated successfully!');
     }
-    setSaving(false);
+
+    // =========================
+    // ADD NEW PRODUCT
+    // =========================
+    else {
+      console.log('[AdminProducts] Adding product');
+
+      const { data, error } = await supabase
+        .from('products')
+        .insert(payload)
+        .select('*');
+
+      console.log('[AdminProducts] INSERT DATA:', data);
+      console.log('[AdminProducts] INSERT ERROR:', error);
+
+      if (error) {
+        console.error(
+          '[AdminProducts] INSERT FAILED:',
+          error
+        );
+
+        alert(
+          'Failed to add product:\n\n' +
+          error.message
+        );
+
+        return;
+      }
+
+      alert('Product added successfully!');
+    }
+
+    // Notify other pages/components
+    notifyProductsChanged();
+
+    // Close modal
     setShowForm(false);
-    load();
-  };
+
+    // Reload products from Supabase
+    await load();
+
+  } catch (error: any) {
+    console.error(
+      '[AdminProducts] Unexpected error:',
+      error
+    );
+
+    alert(
+      'Unexpected error:\n\n' +
+      (error?.message || String(error))
+    );
+
+  } finally {
+    setSaving(false);
+  }
+};
+    // UPDATE
 
   const remove = async () => {
     if (!confirmDelete) return;
     await supabase.from('products').delete().eq('id', confirmDelete.id);
+    notifyProductsChanged();
     setConfirmDelete(null);
     load();
   };
