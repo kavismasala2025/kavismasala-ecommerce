@@ -27,7 +27,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {product.image_url ? (
           <img
             src={product.image_url}
-            alt={product.name}
+            alt={product.image_description || product.name}
             loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
