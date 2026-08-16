@@ -24,17 +24,17 @@ export default function AdminCustomers() {
       // customers table doesn't store email; pull from auth via the orders table
       // as a proxy (orders store customer_name + phone). We join in JS.
       const [{ data: customers }, { data: addresses }, { data: orders }] = await Promise.all([
-        supabase.from('customers').select('*'),
-        supabase.from('customer_addresses').select('*'),
-        supabase.from('orders').select('id, customer_name, phone, grand_total, created_at'),
-      ]);
+  supabase.from('profiles').select('*'),
+  supabase.from('addresses').select('*'),
+  supabase.from('orders').select('id, customer_name, phone, grand_total, created_at'),
+]);
 
       const custList = (customers as Customer[] | null) ?? [];
       const addrList = (addresses as CustomerAddress[] | null) ?? [];
       const orderList = (orders as Order[] | null) ?? [];
 
       const built: CustomerRow[] = custList.map((c) => {
-        const myAddrs = addrList.filter((a) => a.customer_id === c.id);
+       const myAddrs = addrList.filter((a) => a.user_id === c.id);
         const myOrders = orderList.filter((o) => o.phone === c.phone);
         return {
           customer: c,
@@ -121,7 +121,7 @@ export default function AdminCustomers() {
                         <div className="text-xs text-stone-400 flex items-start gap-1 mt-0.5 max-w-[220px]">
                           <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
                           <span className="line-clamp-2">
-                            {r.defaultAddress.door_no}, {r.defaultAddress.street_name}, {r.defaultAddress.city} — {r.defaultAddress.pincode}
+                            {r.defaultAddress.line_1}, {r.defaultAddress.line_2}, {r.defaultAddress.city} — {r.defaultAddress.pincode}
                           </span>
                         </div>
                       )}

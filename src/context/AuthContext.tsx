@@ -50,7 +50,7 @@ export function AuthProvider({
   const loadCustomer = async (uid: string) => {
     try {
       const { data, error } = await supabase
-        .from('customers')
+        .from('profiles')
         .select('id, full_name, phone, created_at')
         .eq('id', uid)
         .maybeSingle();
@@ -186,7 +186,7 @@ export function AuthProvider({
 
     if (data.user) {
       const { error: customerError } = await supabase
-        .from('customers')
+        .from('profiles')
         .upsert(
           {
             id: data.user.id,
@@ -267,7 +267,7 @@ export function AuthProvider({
 
     const { error: customerError } =
       await supabase
-        .from('customers')
+        .from('profiles')
         .upsert(
           {
             id: data.user.id,
