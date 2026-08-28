@@ -661,11 +661,41 @@ if (error || !order) {
                     <Package className="w-5 h-5 text-maroon-700 shrink-0" /> Courier charge
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {/* Nearby / Local Delivery */}
+<button
+  type="button"
+  onClick={() =>
+    setForm((f) => ({
+      ...f,
+      deliveryLocation: 'Nearby',
+    }))
+  }
+  className={`w-full text-left p-3 rounded-xl border transition ${
+    form.deliveryLocation === 'Nearby'
+      ? 'border-maroon-800 bg-maroon-50'
+      : 'border-stone-200 bg-white'
+  }`}
+>
+  <div className="flex items-center justify-between">
+    <span className="font-semibold text-stone-800">
+      Nearby / Local Delivery
+    </span>
+
+    {form.deliveryLocation === 'Nearby' && (
+      <span className="text-maroon-800 font-bold">✓</span>
+    )}
+  </div>
+
+  <div className="text-xs text-stone-500 mt-1">
+    No courier charge
+  </div>
+</button>               
                     {DELIVERY_LOCATIONS.map((loc) => {
                       const info = SHIPPING_RATES[loc];
                       return (
                         <button
                           key={loc}
+                        
                           type="button"
                           onClick={() => set('deliveryLocation', loc)}
                           className={`flex flex-col text-left p-3 rounded-xl border-2 transition active:scale-[0.98] ${

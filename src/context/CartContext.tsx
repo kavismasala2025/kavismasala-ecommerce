@@ -44,16 +44,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
       items,
       count,
       total,
-      add: (product, qty = 1) =>
-        setItems((prev) => {
-          const existing = prev.find((l) => l.product.id === product.id);
-          if (existing) {
-            return prev.map((l) =>
-              l.product.id === product.id ? { ...l, quantity: l.quantity + qty } : l,
-            );
-          }
-          return [...prev, { product, quantity: qty }];
-        }),
+  add: (product, qty = 1) =>
+  setItems((prev) => {
+    const existing = prev.find((l) => l.product.id === product.id);
+
+    if (existing) {
+      return prev.map((l) =>
+        l.product.id === product.id
+          ? { ...l, quantity: qty }
+          : l,
+      );
+    }
+
+    return [...prev, { product, quantity: qty }];
+  }),
       remove: (productId) => setItems((prev) => prev.filter((l) => l.product.id !== productId)),
       setQty: (productId, qty) =>
         setItems((prev) =>
