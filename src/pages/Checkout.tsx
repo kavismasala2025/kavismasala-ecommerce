@@ -35,7 +35,11 @@ const BLANK: SavedCustomer = {
   pincode: '',
   deliveryLocation: 'Tamil Nadu',
 };
-
+const KANCHIPURAM_FREE_DELIVERY = {
+  label: 'Nearby / Local Delivery',
+  rate: 0,
+  note: 'Free delivery within Kanchipuram city',
+};
 // ── Small reusable field ──────────────────────────────────────────────────────
 function Field({
   label, required, error, children,
@@ -136,10 +140,15 @@ export default function Checkout() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [savedAddresses, setSavedAddresses] = useState<CustomerAddress[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+const isKanchipuram =
+  form.city.trim().toLowerCase() === 'kanchipuram';
 
-  const shippingInfo = SHIPPING_RATES[form.deliveryLocation] ?? SHIPPING_RATES['Other'];
-  const shipping = shippingInfo.rate;
-  const grand = total + shipping;
+const shippingInfo = isKanchipuram
+  ? KANCHIPURAM_FREE_DELIVERY
+  : SHIPPING_RATES[form.deliveryLocation] ?? SHIPPING_RATES['Tamil Nadu'];
+
+const shipping = shippingInfo.rate;
+const grand = total + shipping;
   const effectiveWhatsApp = form.whatsAppSameAsPhone1 ? form.phone : form.whatsappNumber;
 
   // Load saved addresses for signed-in customers; pre-fill from the default.
@@ -632,11 +641,19 @@ if (error || !order) {
                       <Field label="City" required error={errors.city}>
                         {errors.city && <span data-error />}
                         <Input
-                          value={form.city}
-                          onChange={(v) => set('city', v)}
-                          placeholder="e.g. Kanchipuram"
-                          error={!!errors.city}
-                        />
+  value={form.city}
+  onChange={(v) => {
+    set('city', v);
+
+    if (v.trim().toLowerCase() === 'kanchipuram') {
+      set('deliveryLocation', 'Nearby');
+    } else if (form.deliveryLocation === 'Nearby') {
+      set('deliveryLocation', 'Tamil Nadu');
+    }
+  }}
+  placeholder="e.g. Kanchipuram"
+  error={!!errors.city}
+/>
                       </Field>
 
                       <Field label="Pincode" required error={errors.pincode}>
@@ -687,8 +704,8 @@ if (error || !order) {
   </div>
 
   <div className="text-xs text-stone-500 mt-1">
-    No courier charge
-  </div>
+  Free delivery within Kanchipuram city
+</div>
 </button>               
                     {DELIVERY_LOCATIONS.map((loc) => {
                       const info = SHIPPING_RATES[loc];
