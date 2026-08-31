@@ -137,25 +137,41 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Floating button */}
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? 'Close chat' : 'Open chat assistant'}
-        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 ${
-          open
-            ? 'bg-stone-800 text-white rotate-90'
-            : 'bg-maroon-800 hover:bg-maroon-900 text-white hover:scale-110'
-        }`}
-      >
-        {open ? <X className="w-6 h-6" /> : (
-          <span className="relative">
-            <Sparkles className="w-6 h-6" />
-            {!open && (
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-maroon-800 animate-pulse" />
-            )}
-          </span>
+      {/* Floating Chatbot */}
+<div className="fixed bottom-6 right-6 z-50 flex items-center gap-2">
+
+  {/* Chat with us label */}
+  {!open && (
+    <div className="bg-maroon-800 text-white font-bold text-sm px-4 py-2.5 rounded-full shadow-lg shadow-maroon-800/30 border border-cream-300 flex items-center gap-2 animate-pulse whitespace-nowrap">
+  <MessageCircle className="w-4 h-4 text-cream-300" />
+  Chat with us
+</div>
+  )}
+
+  {/* Chatbot button */}
+  <button
+    onClick={() => setOpen((v) => !v)}
+    aria-label={open ? 'Close chat' : 'Open chat assistant'}
+    className={`w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 ${
+      open
+        ? 'bg-stone-800 text-white rotate-90'
+        : 'bg-maroon-800 hover:bg-maroon-900 text-white hover:scale-110'
+    }`}
+  >
+    {open ? (
+      <X className="w-6 h-6" />
+    ) : (
+      <span className="relative">
+        <Sparkles className="w-6 h-6" />
+
+        {!open && (
+          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-maroon-800 animate-pulse" />
         )}
-      </button>
+      </span>
+    )}
+  </button>
+
+</div>
 
       {/* Chat window */}
       {open && (

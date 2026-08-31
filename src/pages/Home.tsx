@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ArrowRight, Leaf, Package, ShieldCheck, Truck, BadgeCheck } from 'lucide-react';
+import { ArrowRight, Leaf, Package, ShieldCheck, Truck, BadgeCheck} from 'lucide-react';
 import { BRAND, CATEGORIES, subscribeToProducts, loadProductsCatalog } from '../lib/supabase';
 import type { Product } from '../lib/types';
 import ProductCard from '../components/ProductCard';
