@@ -42,29 +42,51 @@ function Routes() {
 
   const cleanPath = path.split('?')[0];
 
-  // ── Admin area (completely separate from the public site) ──────────────────
-  // /admin → full-page login (never redirects to the customer homepage).
-  // Authenticated visitors to /admin are sent to the dashboard.
-  // Any protected /admin/* route without a session redirects to /admin.
-  if (cleanPath === '/admin' || cleanPath === '/admin/') {
-    return isAuthed ? <Redirect to="/admin/dashboard" /> : <AdminLogin />;
-  }
-  if (cleanPath.startsWith('/admin/')) {
-    if (!isAuthed) return <Redirect to="/admin" />;
-    switch (cleanPath) {
-      case '/admin/dashboard': return <AdminDashboard />;
-      case '/admin/orders': return <AdminOrders />;
-      case '/admin/products': return <AdminProducts />;
-      case '/admin/categories': return <AdminCategories />;
-      case '/admin/customers': return <AdminCustomers />;
-      case '/admin/inventory': return <AdminInventory />;
-      case '/admin/coupons': return <AdminCoupons />;
-      case '/admin/analytics': return <AdminAnalytics />;
-      case '/admin/settings': return <AdminSettings />;
-      default: return <AdminDashboard />;
-    }
-  }
+  // ── MyPortal area ──────────────────────────────────────────────────────────
+// /myportal → MyPortal login
+// Authenticated visitors to /myportal are sent to the dashboard.
+// Protected /myportal/* routes require MyPortal authentication.
 
+if (cleanPath === '/myportal' || cleanPath === '/myportal/') {
+  return isAuthed ? <Redirect to="/myportal/dashboard" /> : <AdminLogin />;
+}
+
+if (cleanPath.startsWith('/myportal/')) {
+  if (!isAuthed) return <Redirect to="/myportal" />;
+
+  switch (cleanPath) {
+    case '/myportal/dashboard':
+      return <AdminDashboard />;
+
+    case '/myportal/orders':
+      return <AdminOrders />;
+
+    case '/myportal/products':
+      return <AdminProducts />;
+
+    case '/myportal/categories':
+      return <AdminCategories />;
+
+    case '/myportal/customers':
+      return <AdminCustomers />;
+
+    case '/myportal/inventory':
+      return <AdminInventory />;
+
+    case '/myportal/coupons':
+      return <AdminCoupons />;
+
+    case '/myportal/analytics':
+      return <AdminAnalytics />;
+
+    case '/myportal/settings':
+      return <AdminSettings />;
+
+    default:
+      return <AdminDashboard />;
+  }
+}
+ 
   // Account routes — standalone, no public header/footer
   if (cleanPath === '/account') {
     return <Account />;
