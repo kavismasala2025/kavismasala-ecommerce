@@ -17,7 +17,7 @@ export default function AdminLogin() {
     const ok = await login(username, password);
 
     if (ok) {
-        navigate('/admin/dashboard');
+        navigate('/myportal/dashboard');
     } else {
         setError('Invalid email or password');
     }
