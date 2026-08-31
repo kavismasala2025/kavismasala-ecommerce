@@ -366,13 +366,18 @@ export default function ProductDetail({ slug }: { slug: string }) {
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
 
           {/* IMAGE */}
-          <div className="rounded-2xl overflow-hidden bg-cream-100 aspect-square shadow-md">
+          <div className="rounded-2xl overflow-hidden bg-cream-100 aspect-square shadow-md
+  transition-all duration-300
+  hover:shadow-xl
+  active:scale-[0.99]">
 
             {product.image_url ? (
               <img
                 src={product.image_url}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover
+  transition-transform duration-500
+  hover:scale-105"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-maroon-300 text-7xl font-bold">
@@ -450,7 +455,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                       Math.max(1, q - 1)
                     )
                   }
-                  className="p-3 text-stone-600 hover:text-maroon-700 disabled:opacity-40"
+               className="p-3 text-stone-600 hover:text-maroon-700
+  active:scale-90 active:bg-maroon-50
+  transition-all duration-150
+  disabled:opacity-40"
                   disabled={out}
                 >
                   <Minus className="w-4 h-4" />
@@ -464,7 +472,10 @@ export default function ProductDetail({ slug }: { slug: string }) {
                   onClick={() =>
                     setQty((q) => q + 1)
                   }
-                  className="p-3 text-stone-600 hover:text-maroon-700 disabled:opacity-40"
+                  className="p-3 text-stone-600 hover:text-maroon-700
+  active:scale-90 active:bg-maroon-50
+  transition-all duration-150
+  disabled:opacity-40"
                   disabled={
                     out ||
                     qty >= product.stock
@@ -499,9 +510,13 @@ export default function ProductDetail({ slug }: { slug: string }) {
               <button
                 onClick={handleAdd}
                 disabled={out}
-                className={`flex-1 inline-flex items-center justify-center gap-2 font-semibold px-6 py-3.5 rounded-full transition ${
-                  out
-                    ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
+                
+                  className={`flex-1 inline-flex items-center justify-center gap-2
+font-semibold px-6 py-3.5 rounded-full
+transition-all duration-150
+active:scale-[0.97]
+hover:shadow-lg ${
+                    out ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
                     : added
                       ? 'bg-green-600 text-white'
                       : 'bg-maroon-800 text-white hover:bg-maroon-900'
@@ -524,7 +539,15 @@ export default function ProductDetail({ slug }: { slug: string }) {
               <button
                 onClick={buyNow}
                 disabled={out}
-                className="flex-1 inline-flex items-center justify-center gap-2 font-semibold px-6 py-3.5 rounded-full border-2 border-maroon-800 text-maroon-800 hover:bg-maroon-50 transition disabled:opacity-40"
+               className="flex-1 inline-flex items-center justify-center gap-2
+font-semibold px-6 py-3.5 rounded-full
+border-2 border-maroon-800 text-maroon-800
+hover:bg-maroon-50
+hover:shadow-md
+active:scale-[0.97]
+active:bg-maroon-100
+transition-all duration-150
+disabled:opacity-40"
               >
                 Buy now
               </button>
@@ -621,6 +644,7 @@ export default function ProductDetail({ slug }: { slug: string }) {
                 <div className="flex gap-1 mt-2">
 
                   {[1, 2, 3, 4, 5].map(
+
                     (star) => (
                       <button
                         key={star}
@@ -628,8 +652,8 @@ export default function ProductDetail({ slug }: { slug: string }) {
                         onClick={() =>
                           setRating(star)
                         }
-                        className={`text-3xl transition ${
-                          star <= rating
+className={`text-3xl transition-all duration-150
+active:scale-90 hover:scale-110 ${                          star <= rating
                             ? 'text-yellow-500'
                             : 'text-stone-300'
                         } hover:text-yellow-500`}
