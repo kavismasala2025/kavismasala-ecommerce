@@ -64,8 +64,8 @@ export default function Header() {
             <div className="relative">
 
               <img
-                src={BRAND.logo}
-                alt="Kavis Masala Logo"
+               src="/kavis-logo.png"
+  alt="Kavis Masala Logo"
                 className="
                   h-11 w-11
                   sm:h-12 sm:w-12
