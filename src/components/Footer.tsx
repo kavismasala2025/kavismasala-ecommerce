@@ -10,7 +10,7 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-2.5 mb-3">
             <img
-              src={BRAND.logo}
+             src="/kavis-logo.png"
               alt="Kavis Masala Logo"
               className="h-10 w-10 rounded-full object-cover border border-cream-300"
             />
