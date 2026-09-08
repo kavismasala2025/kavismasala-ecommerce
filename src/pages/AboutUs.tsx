@@ -16,7 +16,7 @@ export default function AboutUs() {
       <section className="bg-maroon-800 text-white py-14 md:py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <img
-            src={BRAND.logo}
+           src="/kavis-logo.png"
             alt="Kavis Masala Logo"
             className="h-24 w-24 rounded-full object-cover border-4 border-cream-300 shadow-xl mx-auto mb-5"
           />

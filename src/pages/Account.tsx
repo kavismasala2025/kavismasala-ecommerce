@@ -47,8 +47,8 @@ export default function Account() {
         <div className="bg-white rounded-2xl shadow-xl border border-stone-100 overflow-hidden">
           <div className="bg-maroon-800 text-white p-6 text-center">
             <img
-              src={BRAND.logo}
-              alt="Logo"
+              src="/kavis-logo.png"
+              alt="Kavis Masala Logo"
               className="h-16 w-16 rounded-full object-cover border-2 border-cream-300 shadow-lg mx-auto mb-3"
             />
             <h1 className="text-xl font-bold">{mode === 'signin' ? 'Welcome back' : 'Create account'}</h1>
