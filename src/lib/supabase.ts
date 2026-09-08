@@ -146,25 +146,19 @@ export function subscribeToProducts(callback: (payload: unknown) => void) {
   if (typeof window === 'undefined') return () => undefined;
 
   const handleRefresh = () => callback({ source: 'browser-event' });
+
   const handleStorage = (event: StorageEvent) => {
-    if (event.key === 'products:updated') callback({ source: 'storage-event' });
+    if (event.key === 'products:updated') {
+      callback({ source: 'storage-event' });
+    }
   };
 
   window.addEventListener('products:updated', handleRefresh);
   window.addEventListener('storage', handleStorage);
 
-  const channel = supabase.channel('products-changes');
-  channel.on(
-    'postgres_changes',
-    { event: '*', schema: 'public', table: 'products' },
-    (payload) => callback(payload),
-  );
-  channel.subscribe();
-
   return () => {
     window.removeEventListener('products:updated', handleRefresh);
     window.removeEventListener('storage', handleStorage);
-    channel.unsubscribe();
   };
 }
 
