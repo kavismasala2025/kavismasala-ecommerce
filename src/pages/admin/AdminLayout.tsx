@@ -102,8 +102,8 @@ export default function AdminLayout({
         <div className="p-5 border-b border-white/10 flex items-center gap-2.5">
 
           <img
-            src={BRAND.logo}
-            alt="Kavis Masala Logo"
+           src="/kavis-log.png"
+  alt="Kavis Masala Logo"
             className="h-9 w-9 rounded-full object-cover border border-cream-300"
           />
 
