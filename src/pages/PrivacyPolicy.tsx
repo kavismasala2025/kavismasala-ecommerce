@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
             <Shield className="w-7 h-7" />
           </div>
           <h1 className="text-3xl font-bold">Privacy Policy</h1>
-          <p className="text-white/70 mt-2 text-sm">Last updated: July 2026</p>
+          <p className="text-white/70 mt-2 text-sm">Last updated: september 2026</p>
         </div>
       </section>
 
@@ -29,7 +29,7 @@ export default function PrivacyPolicy() {
         <div className="bg-white rounded-2xl border border-stone-100 p-6 md:p-10">
 
           <p className="text-stone-600 leading-relaxed mb-8">
-            At <strong className="text-maroon-800">Kavis Masala</strong> ("we", "our", "us"), your privacy is important to us.
+            At <strong className="text-maroon-800">Kavis Masala</strong> your privacy is important to us.
             This Privacy Policy explains how we collect, use, and protect your personal information when you use our website
             and place orders with us.
           </p>
@@ -53,7 +53,7 @@ export default function PrivacyPolicy() {
             <ul className="list-disc list-inside space-y-1 mt-2">
               <li>Process and deliver your orders</li>
               <li>Contact you about your order status</li>
-              <li>Handle returns, refunds, and customer support</li>
+              <li>Handle returns and customer support</li>
               <li>Improve our products and services based on feedback</li>
               <li>Send occasional updates about new products (only with your consent)</li>
             </ul>
@@ -80,22 +80,7 @@ export default function PrivacyPolicy() {
               your data by contacting us at <a href={`mailto:${BRAND.email}`} className="text-maroon-700 font-semibold">{BRAND.email}</a>.
             </p>
           </Section>
-
-          <Section title="5. Cookies">
-            <p>
-              Our website uses only essential local storage (for your shopping cart). We do not use tracking cookies or
-              third-party analytics cookies.
-            </p>
-          </Section>
-
-          <Section title="6. Children's Privacy">
-            <p>
-              Our website is not directed to children under 13 years of age. We do not knowingly collect personal
-              information from children.
-            </p>
-          </Section>
-
-          <Section title="7. Your Rights">
+          <Section title="5. Your Rights">
             <p>You have the right to:</p>
             <ul className="list-disc list-inside space-y-1 mt-2">
               <li>Access the personal data we hold about you</li>
@@ -108,14 +93,14 @@ export default function PrivacyPolicy() {
             </p>
           </Section>
 
-          <Section title="8. Changes to This Policy">
+          <Section title="6. Changes to This Policy">
             <p>
               We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated
               date. We encourage you to review this policy periodically.
             </p>
           </Section>
 
-          <Section title="9. Contact Us">
+          <Section title="7. Contact Us">
             <p>If you have any questions or concerns about this Privacy Policy, please contact us:</p>
             <div className="flex flex-col sm:flex-row gap-3 mt-3">
               <a href={`tel:${BRAND.phone}`}

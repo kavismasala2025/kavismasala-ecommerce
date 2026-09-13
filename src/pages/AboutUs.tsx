@@ -4,7 +4,6 @@ import { Link } from '../lib/router';
 
 const VALUES = [
   { icon: '🌿', title: 'Traditional Methods', desc: 'Every recipe follows age-old techniques passed down through generations.' },
-  { icon: '🫙', title: 'Small Batches', desc: 'Prepared in small quantities to ensure freshness and uncompromised quality.' },
   { icon: '✅', title: 'No Preservatives', desc: 'Pure, clean ingredients — free from artificial preservatives and additives.' },
   { icon: '🇮🇳', title: 'Indian Heritage', desc: 'Inspired by the rich culinary traditions of South India.' },
 ];
@@ -35,12 +34,12 @@ export default function AboutUs() {
           <p className="text-lg md:text-xl text-stone-700 leading-relaxed">
             At <strong className="text-maroon-800">Kavis Masala</strong>, we believe in one timeless truth from our tradition —
             <br className="hidden md:block" />
-            <span className="text-maroon-800 font-semibold italic"> "Unave Marundhu" (Food is Medicine).</span>
+            <span className="text-maroon-800 font-semibold italic"> "Unave Marundhu"</span>
           </p>
           <p className="text-stone-600 mt-4 leading-relaxed">
-            Our journey began not in a factory, but in a school environment — among teachers who inspired discipline, care,
-            and a deep respect for natural living. What started as simple homemade preparations shared within our school
-            community slowly grew into something much bigger — a purpose.
+            Every journey has a beginning, and ours began in a school, with homemade preparations, curious minds, and a desire to create something meaningful.
+The appreciation we received from the teachers and colleagues around us gave that small beginning a new direction — and Kavis Masala was born.
+
           </p>
         </div>
 
@@ -52,14 +51,12 @@ export default function AboutUs() {
           <div className="flex-1">
             <h2 className="text-2xl font-bold text-stone-900 mb-3">Our Beginning</h2>
             <p className="text-stone-600 leading-relaxed">
-              Kavis Masala was started by a group of passionate school teachers who believed that today's fast food culture
-              was slowly moving people away from healthy, traditional eating habits. With this concern in mind, we began
-              preparing homemade spice powders, health mixes, and traditional food blends in our own kitchens — using
-              age-old recipes passed down through generations.
+              Kavis Masala began as a small initiative in a school environment, where our homemade preparations were first made and shared among teachers and colleagues. What started with a few simple products soon received appreciation for their traditional taste, quality, and convenience, encouraging us to take the idea forward.
+As we saw how useful these preparations were in making everyday cooking easier, we envisioned bringing them beyond our school community — especially for working professionals, hostelers, bachelors, and even homemakers who wanted the comfort of traditional food without spending hours preparing it from scratch. This simple beginning became the foundation for Kavis Masala, with a purpose to make traditional cooking easier, faster, and more convenient for everyone.
             </p>
             <p className="text-stone-600 leading-relaxed mt-3">
               What began as small batches made for colleagues, friends, and families soon gained trust for its
-              <strong className="text-maroon-800"> authentic taste, purity, and health benefits.</strong>
+             authentic taste, purity, and health benefits.
             </p>
           </div>
         </div>
@@ -72,7 +69,7 @@ export default function AboutUs() {
           <h2 className="text-2xl font-bold mb-3">Our Philosophy</h2>
           <p className="text-white/80 mb-4">We follow a simple principle:</p>
           <blockquote className="text-xl md:text-2xl font-bold italic text-cream-300 mb-6">
-            "Let food be your medicine, and medicine be your food."
+            "Rooted in tradition, crafted for today — bringing goodness to every home."
           </blockquote>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center mt-4">
             {VALUES.map((v) => (
@@ -85,44 +82,58 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {/* Mission */}
-        <div className="flex flex-col md:flex-row gap-6 items-start">
-          <div className="bg-green-600 text-white w-14 h-14 rounded-2xl flex items-center justify-center shrink-0">
-            <Target className="w-7 h-7" />
-          </div>
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold text-stone-900 mb-3">Our Mission</h2>
-            <p className="text-stone-600 leading-relaxed">
-              To bring back the lost tradition of healthy eating by offering <strong className="text-maroon-800">pure, homemade-style
-              masalas and health mixes</strong> that support a natural and balanced lifestyle.
-            </p>
-            <p className="text-stone-600 leading-relaxed mt-3">
-              We aim to make every kitchen healthier by reconnecting people with traditional wisdom.
-            </p>
-          </div>
-        </div>
+{/* Mission */}
+<div className="flex flex-col md:flex-row gap-6 items-start">
+  <div className="bg-green-600 text-white w-14 h-14 rounded-2xl flex items-center justify-center shrink-0">
+    <Target className="w-7 h-7" />
+  </div>
 
-        {/* From our kitchen */}
-        <div className="bg-cream-100 border border-cream-200 rounded-2xl p-6 md:p-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-maroon-800 flex items-center justify-center">
-              <Leaf className="w-5 h-5 text-white" />
-            </div>
-            <h2 className="text-2xl font-bold text-stone-900">From Our Kitchen to Yours</h2>
-          </div>
-          <p className="text-stone-600 leading-relaxed mb-4">
-            Today, Kavis Masala is more than just a brand — it is a movement started by teachers, rooted in tradition,
-            and driven by care for your family's health.
-          </p>
-          <p className="text-stone-700 font-medium mb-3">Every packet you receive carries:</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {['Tradition', 'Trust', 'Taste', '"Unave Marundhu"'].map((v) => (
-              <div key={v} className="bg-white rounded-xl p-3 text-center border border-cream-200">
-                <span className="text-maroon-800 font-bold text-sm">{v}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+  <div className="flex-1">
+    <h2 className="text-2xl font-bold text-stone-900 mb-5">
+      Our Mission
+    </h2>
+
+    <div className="space-y-4">
+      <div>
+        <h3 className="font-semibold text-maroon-800">
+          🌿 Preserve Tradition
+        </h3>
+        <p className="text-stone-600 leading-relaxed">
+          Keeping our rich food heritage alive and passing it on to future generations.
+        </p>
+      </div>
+
+      <div>
+        <h3 className="font-semibold text-maroon-800">
+          🥘 Simplify Cooking
+        </h3>
+        <p className="text-stone-600 leading-relaxed">
+          Making everyday cooking easier and bringing convenience to modern lifestyles.
+        </p>
+      </div>
+
+      <div>
+        <h3 className="font-semibold text-maroon-800">
+          ❤️ Serve Every Lifestyle
+        </h3>
+        <p className="text-stone-600 leading-relaxed">
+          Bringing traditional flavours closer to people and their everyday food needs.
+        </p>
+      </div>
+
+      <div>
+        <h3 className="font-semibold text-maroon-800">
+          🌾 Inspire the Future
+        </h3>
+        <p className="text-stone-600 leading-relaxed">
+          Connecting the wisdom of our past with the kitchens of future generations.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
         {/* Promise */}
         <div className="flex flex-col md:flex-row gap-6 items-start">

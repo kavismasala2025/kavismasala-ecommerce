@@ -142,7 +142,7 @@ export default function ChatBot() {
 
   {/* Chat with us label */}
   {!open && (
-    <div className="bg-maroon-800 text-white font-bold text-sm px-4 py-2.5 rounded-full shadow-lg shadow-maroon-800/30 border border-cream-300 flex items-center gap-2 animate-pulse whitespace-nowrap">
+    <div className="bg-maroon-800 text-white font-bold text-sm px-4 py-2.5 rounded-full shadow-lg shadow-maroon-800/30 border border-cream-300 flex items-center gap-2  whitespace-nowrap">
   <MessageCircle className="w-4 h-4 text-cream-300" />
   Chat with us
 </div>

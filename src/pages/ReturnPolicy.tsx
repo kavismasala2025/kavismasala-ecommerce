@@ -73,23 +73,14 @@ export default function ReturnPolicy() {
             </ul>
           </Section>
 
-          <Section title="4. Refund Policy">
-            <p>Once your return is approved:</p>
-            <ul className="list-disc list-inside space-y-1 mt-2">
-              <li>A <strong>full refund</strong> will be initiated to your original UPI payment method.</li>
-              <li>Refunds are typically processed within <strong>5–7 business days</strong>.</li>
-              <li>You will receive a confirmation message once the refund is initiated.</li>
-            </ul>
-          </Section>
-
-          <Section title="5. Replacement Policy">
+          <Section title="4. Replacement Policy">
             <p>
               In cases of damaged or wrong products, we may offer a <strong>free replacement</strong> instead of a refund,
               depending on stock availability. We will confirm the option with you before proceeding.
             </p>
           </Section>
 
-          <Section title="6. No-Return Items">
+          <Section title="5. No-Return Items">
             <p>The following are strictly non-returnable:</p>
             <ul className="list-disc list-inside space-y-1 mt-2">
               <li>Opened or used food products</li>
@@ -97,7 +88,7 @@ export default function ReturnPolicy() {
             </ul>
           </Section>
 
-          <Section title="7. Shipping Costs for Returns">
+          <Section title="6. Shipping Costs for Returns">
             <p>
               If the return is due to <strong>our error</strong> (wrong/defective product), we will bear the return
               shipping cost.
@@ -107,7 +98,7 @@ export default function ReturnPolicy() {
             </p>
           </Section>
 
-          <Section title="8. Contact Us">
+          <Section title="7. Contact Us">
             <p>For any questions about this policy, please reach out to us:</p>
             <div className="flex flex-col sm:flex-row gap-3 mt-3">
               <a href={`tel:${BRAND.phone}`}
