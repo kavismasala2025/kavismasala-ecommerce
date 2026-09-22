@@ -23,6 +23,15 @@ import { useAuth } from '../context/AuthContext';
 import { Link, useRouter } from '../lib/router';
 import ProductCard from '../components/ProductCard';
 
+declare global {
+  interface Window {
+    instgrm?: {
+      Embeds: {
+        process: () => void;
+      };
+    };
+  }
+}
 type Review = {
   id: string;
   product_id: string;
@@ -119,6 +128,18 @@ export default function ProductDetail({ slug }: { slug: string }) {
       unsubscribe();
     };
   }, [slug]);
+    /*
+   * PROCESS INSTAGRAM REEL
+   */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [product]);
 
   /*
    * LOAD REVIEWS
@@ -752,116 +773,59 @@ active:scale-90 hover:scale-110 ${                          star <= rating
           )}
 
 
-          {/* EXISTING REVIEWS */}
+      {/* EXISTING REVIEWS */}
 
-          {reviewsLoading ? (
+{reviewsLoading && (
+  <div className="py-2 text-center text-stone-400 text-xs">
+    Loading...
+  </div>
+)}
+</section>
+{/* ===================================================== */}
+{/* INSTAGRAM CUSTOMER FEEDBACK */}
+{/* ===================================================== */}
 
-            <div className="py-10 text-center text-stone-500">
-              Loading reviews...
-            </div>
+{product.name.toLowerCase().includes('mudakathan') && (
+  <section className="mt-8">
 
-          ) : reviews.length === 0 ? (
+    <h2 className="text-lg font-bold text-stone-900 mb-3 text-center">
+      Customer Feedback
+    </h2>
 
-            <div className="bg-white rounded-2xl border border-stone-100 p-8 text-center">
+    <div className="flex justify-center">
 
-              <div className="text-4xl text-yellow-400 mb-3">
-                ☆
-              </div>
+     <div className="w-[300px] h-[320px] rounded-xl overflow-hidden shadow-md bg-white">
 
-              <h3 className="font-semibold text-stone-800">
-                No reviews yet
-              </h3>
+        <blockquote
+          className="instagram-media"
+          data-instgrm-permalink="https://www.instagram.com/reel/DFxWpqoy9rc/"
+          data-instgrm-version="14"
+          style={{
+            background: '#fff',
+            border: 0,
+            borderRadius: '8px',
+            margin: 0,
+            padding: 0,
+            width: '100%',
+            minWidth: '0',
+          }}
+        />
 
-              <p className="text-sm text-stone-500 mt-1">
-                Be the first customer to review this product.
-              </p>
+      </div>
 
-            </div>
+    </div>
 
-          ) : (
+    <p className="text-xs text-stone-500 mt-2 text-center">
+      Tap to watch on Instagram
+    </p>
 
-            <div className="space-y-4">
-
-              {reviews.map((review) => (
-
-                <div
-                  key={review.id}
-                  className="bg-white rounded-2xl border border-stone-100 p-5 sm:p-6"
-                >
-
-                  <div className="flex items-center gap-2 flex-wrap">
-
-                    <div className="text-yellow-500 text-lg">
-                      {'★'.repeat(
-                        Math.max(
-                          0,
-                          Math.min(
-                            5,
-                            review.rating
-                          )
-                        )
-                      )}
-
-                      <span className="text-stone-300">
-                        {'★'.repeat(
-                          5 -
-                            Math.max(
-                              0,
-                              Math.min(
-                                5,
-                                review.rating
-                              )
-                            )
-                        )}
-                      </span>
-                    </div>
-
-                    {review.is_verified && (
-                      <span className="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-full">
-                        ✓ Verified purchase
-                      </span>
-                    )}
-
-                  </div>
-
-
-                  {review.title && (
-                    <h3 className="font-bold text-stone-900 mt-2">
-                      {review.title}
-                    </h3>
-                  )}
-
-
-                  <p className="text-stone-600 mt-1 leading-relaxed">
-                    {review.body}
-                  </p>
-
-
-                  {review.created_at && (
-                    <p className="text-xs text-stone-400 mt-3">
-                      {new Date(
-                        review.created_at
-                      ).toLocaleDateString('en-IN')}
-                    </p>
-                  )}
-
-                </div>
-
-              ))}
-
-            </div>
-
-          )}
-
-        </section>
-
-
+  </section>
+)}
         {/* ===================================================== */}
         {/* RELATED PRODUCTS */}
         {/* ===================================================== */}
 
         {related.length > 0 && (
-
           <section className="mt-16">
 
             <h2 className="text-2xl font-bold text-stone-900 mb-6">
@@ -869,22 +833,18 @@ active:scale-90 hover:scale-110 ${                          star <= rating
             </h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
               {related.map((p) => (
                 <ProductCard
                   key={p.id}
                   product={p}
                 />
               ))}
-
             </div>
 
           </section>
-
         )}
 
       </div>
-
     </div>
   );
-}
+}   

@@ -4,7 +4,15 @@ import { BRAND, CATEGORIES, subscribeToProducts, loadProductsCatalog } from '../
 import type { Product } from '../lib/types';
 import ProductCard from '../components/ProductCard';
 import { Link, useRouter } from '../lib/router';
-
+declare global {
+  interface Window {
+    instgrm?: {
+      Embeds: {
+        process: () => void;
+      };
+    };
+  }
+}
 const ALL_CATS = ['All Products', ...CATEGORIES] as const;
 
 export default function Home() {
@@ -34,6 +42,15 @@ export default function Home() {
       active = false;
       unsubscribe();
     };
+  }, []);
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleFilter = (cat: string) => {
@@ -169,7 +186,7 @@ export default function Home() {
           </Link>
         </div>
       </section>
-
+      
       {/* CTA banner */}
       <section className="bg-maroon-800 py-12 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">

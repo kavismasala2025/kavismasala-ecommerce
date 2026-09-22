@@ -170,7 +170,7 @@ export const BRAND = {
   email: 'kavismasala2025@gmail.com',
   upiId: 'yaka.rkavitha-1@okhdfcbank',
   upiName: 'Kavitha Ramesh',
-  logo: '/Screenshot_2026-05-04_195040.png',
+  logo: '/kavis-logo.png',
   qrCode: '/WhatsApp_Image_2026-07-02_at_5.40.02_PM.jpeg',
   instagram: 'https://www.instagram.com/kavis_masala?igsh=azZoc2hmMjRwaW1j',
   instagramHandle: 'kavis_masala',
