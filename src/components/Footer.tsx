@@ -80,7 +80,6 @@ export default function Footer() {
               <Phone className="w-4 h-4 text-cream-300 shrink-0" />
               <div>
                 <a href={`tel:${BRAND.phone}`} className="hover:text-cream-300 transition block">{BRAND.phone}</a>
-                <a href={`tel:${BRAND.phone2}`} className="hover:text-cream-300 transition block">{BRAND.phone2}</a>
               </div>
             </li>
             <li className="flex items-center gap-2">

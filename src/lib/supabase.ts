@@ -165,7 +165,6 @@ export function subscribeToProducts(callback: (payload: unknown) => void) {
 export const BRAND = {
   name: 'Kavis Masala',
   phone: '9585008083',
-  phone2: '9790060710',
   tagline: 'Pure homemade masala products made with traditional recipes and authentic taste. Straight from Kanchipuram to your kitchen.',
   email: 'kavismasala2025@gmail.com',
   upiId: 'yaka.rkavitha-1@okhdfcbank',
